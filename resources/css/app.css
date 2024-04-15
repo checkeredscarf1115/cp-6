@@ -1,0 +1,16 @@
+/* * {
+    color: white
+} */
+
+body {
+    background: #87A9B3;
+}
+
+.theme-color {
+    background: #1ea7ae;
+    color: white
+}
+
+.theme-color-gray {
+    background: #6c6a7a;
+}

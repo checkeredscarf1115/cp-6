@@ -18,9 +18,9 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light theme-color-gray shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand text-white" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -39,18 +39,18 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Вход') }}</a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Регистрация') }}</a>
                                 </li>
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
 
@@ -58,7 +58,7 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('Выход') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -71,6 +71,25 @@
                 </div>
             </div>
         </nav>
+
+        <div class="py-3">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-2 text-center theme-color border border-secondary px-3 py-2">
+                        <a href="{{ url('/schedule') }}" class="text-decoration-none text-reset">Расписание</a>
+                    </div>
+                    <div class="col-2 text-center theme-color border border-secondary px-3 py-2">
+                        <a href="{{ url('/routes') }}" class="text-decoration-none text-reset">Маршруты</a>
+                    </div>
+                    <div class="col-2 text-center theme-color border border-secondary px-3 py-2">
+                        <a href="{{ url('/contact') }}" class="text-decoration-none text-reset">Контакты</a>
+                    </div>
+                    <div class="col-2 text-center theme-color border border-secondary px-3 py-2">
+                        <a href="{{ url('/docs') }}" class="text-decoration-none text-reset">Документы</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <main class="py-4">
             @yield('content')
