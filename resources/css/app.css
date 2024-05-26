@@ -3,13 +3,21 @@
 } */
 
 body {
-    background: #87A9B3;
+    background: #87a9b3;
+}
+
+hr {
+    margin-top: 0;
+}
+
+.row .col-auto {
+    width: 5vw;
 }
 
 .theme-color {
     background: #1ea7ae;
     /* background: #1D829D; */
-    color: white
+    color: white;
 }
 
 .theme-color-gray {
@@ -17,10 +25,22 @@ body {
 }
 
 .theme-color-light-gray {
-    background: #E5E6EF;
+    background: #e5e6ef;
 }
 
 .theme-color-dark-gray {
-    background: #51515A;
-    color:white;
+    background: #51515a;
+    color: white;
+}
+
+.seat-reserved {
+    background: #ff9d9d;
+}
+
+.seat-available {
+    background: #9fff9d;
+}
+
+.seat-selected {
+    background: #fdff9d;
 }

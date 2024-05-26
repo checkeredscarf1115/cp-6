@@ -24,4 +24,31 @@
 
     <div class="col-1 mx-2 btn btn-primary">Поиск</div>
 </div>
+
+<div class="pt-2" id="selected">Выбрано: </div>
+
+<hr class="border-4"/>
+
+<div class="row">
+    <div class="container py-5">
+        @for ($i = 0; $i < 10; $i++)
+            <div class="row justify-content-center">
+                @if ($i == 9)
+                    @for ($j = 1; $j <= 5; $j++)
+                        <a href="#" onclick="setSelectedSeats(selected, this)" class="col-auto text-center seat-available m-1 text-black">{{ $j + $i * 4 }}</a>
+                    @endfor
+
+                @else
+                
+                    @for ($j = 1; $j <= 4; $j++)
+                        @if ($j == 3)
+                                <div class="col-auto invisible m-1">0</div> 
+                        @endif
+                        <a href="#" onclick="setSelectedSeats(selected, this)" class="col-auto text-center seat-available m-1 text-black">{{ $j + $i * 4 }}</a>
+                    @endfor
+                @endif
+            </div>
+        @endfor
+    </div>
+</div>
 @endsection
