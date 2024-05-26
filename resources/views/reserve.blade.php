@@ -1,10 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.authorzed')
 
-@section('content')
+@section('inside-content')
 <div class="row">
-    <select class="col-2 mx-2" onchange="showSelectTime('select_time', this)"  >
-        <option value="0" selected>372</option>
-        <option value="1">375</option>
+    <select class="col-2 mx-2" id="select_route" onchange="showSelectTime('select_time', 'select_route')"  >
+        <option value="372" selected>372</option>
+        <option value="375">375</option>
     </select>   
 
     <select class="col-2">

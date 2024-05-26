@@ -1,5 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.authorzed')
 
-@section('content')
+@section('inside-content')
 
 @endsection
