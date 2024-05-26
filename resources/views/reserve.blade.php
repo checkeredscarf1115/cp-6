@@ -35,7 +35,11 @@
             <div class="row justify-content-center">
                 @if ($i == 9)
                     @for ($j = 1; $j <= 5; $j++)
-                        <a href="#" onclick="setSelectedSeats(selected, this)" class="col-auto text-center seat-available m-1 text-black">{{ $j + $i * 4 }}</a>
+                        @if (in_array($j + $i * 4, $seats_reserved))
+                            <div class="col-auto text-center seat-reserved m-1 text-black">{{ $j + $i * 4 }}</div>
+                        @else
+                            <a href="#" onclick="setSelectedSeats(selected, this)" class="col-auto text-center seat-available m-1 text-black">{{ $j + $i * 4 }}</a>
+                        @endif
                     @endfor
 
                 @else
@@ -44,7 +48,11 @@
                         @if ($j == 3)
                                 <div class="col-auto invisible m-1">0</div> 
                         @endif
-                        <a href="#" onclick="setSelectedSeats(selected, this)" class="col-auto text-center seat-available m-1 text-black">{{ $j + $i * 4 }}</a>
+                        @if (in_array($j + $i * 4, $seats_reserved))
+                            <div class="col-auto text-center seat-reserved m-1 text-black">{{ $j + $i * 4 }}</div>
+                        @else
+                            <a href="#" onclick="setSelectedSeats(selected, this)" class="col-auto text-center seat-available m-1 text-black">{{ $j + $i * 4 }}</a>
+                        @endif
                     @endfor
                 @endif
             </div>

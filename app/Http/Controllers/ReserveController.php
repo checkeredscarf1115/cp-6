@@ -13,6 +13,8 @@ class ReserveController extends Controller
 
     public function index()
     {
-        return view('reserve');
+        $seats_reserved = [1, 5, 10];
+        return view('reserve')->with('seats_reserved', $seats_reserved)
+        ;
     }
 }
