@@ -18,14 +18,10 @@
 </head>
 <body>
     <div id="app">
-@yield('header')
+        @yield('menu')
 
-        <main class="py-4">
-            {{-- <div class="container theme-color-light-gray py-2"> --}}
-
-                        @yield('content')
-
-            {{-- </div> --}}
+        <main class="">
+                @yield('content')
         </main>
     </div>
 </body>

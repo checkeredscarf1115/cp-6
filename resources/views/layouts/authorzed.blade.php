@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('header')
+@section('menu')
         <nav class="navbar navbar-expand-md navbar-light theme-color-gray shadow-sm">
             <div class="container">
                 <a class="navbar-brand text-white" href="{{ url('/') }}">
@@ -55,13 +55,22 @@
             </div>
         </nav>
 
-        <div class="py-3">
+        <div class="pt-5">
             <div class="container">
                 <div class="row justify-content-left">
-                    <div class="col-2 text-center theme-color border border-secondary px-3 py-2">
+                    @if(Request::url() === url('/reserve'))
+                        <div class="col-2 text-center theme-color border border-secondary px-3 py-2">
+                    @else
+                        <div class="col-2 text-center theme-color-dark-gray border border-secondary px-3 py-2">
+                    @endif
                         <a href="{{ url('/reserve') }}" class="text-decoration-none text-reset">Бронирование мест</a>
                     </div>
-                    <div class="col-2 text-center theme-color border border-secondary px-3 py-2">
+
+                    @if(Request::url() === url('/reservations'))
+                        <div class="col-2 text-center theme-color border border-secondary px-3 py-2">
+                    @else
+                        <div class="col-2 text-center theme-color-dark-gray border border-secondary px-3 py-2">
+                    @endif
                         <a href="{{ url('/reservations') }}" class="text-decoration-none text-reset">Действующие брони</a>
                     </div>
                 </div>
@@ -70,7 +79,7 @@
 @endsection
 
 @section('content')
-            <div class="container theme-color-light-gray py-2">
+            <div class="container theme-color-light-gray py-4 px-4">
 
                         @yield('inside-content')
 

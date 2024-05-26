@@ -8,6 +8,7 @@ body {
 
 .theme-color {
     background: #1ea7ae;
+    /* background: #1D829D; */
     color: white
 }
 
@@ -17,4 +18,9 @@ body {
 
 .theme-color-light-gray {
     background: #E5E6EF;
+}
+
+.theme-color-dark-gray {
+    background: #51515A;
+    color:white;
 }
