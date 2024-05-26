@@ -7,7 +7,7 @@
         <option value="2">2</option>
     </select>   
 
-    <select class="col-2">
+    <select class="col-2 mx-2">
         <option>Остановка 1</option>
         <option>Остановка 2</option>
         <option>Остановка 3</option>
@@ -20,8 +20,8 @@
 
     <input class="col-2 mx-2" type="date" id="input_date" onchange="showSelectTime('select_time', 'select_route', 'input_date')">
     
-    <select class="col-2 " id="select_time">
+    <select class="col-2 mx-2" id="select_time"></select>
 
-    </select>
+    <div class="col-1 mx-2 btn btn-primary">Поиск</div>
 </div>
 @endsection

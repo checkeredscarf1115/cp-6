@@ -1,6 +1,7 @@
 import './bootstrap';
 import '../css/app.css'
-import {showSelectTime} from './my'
+import {showSelectTime, setDate} from './my'
 
+setDate('input_date');
 window.showSelectTime = showSelectTime;
-// showSelectTime("select_time", 372);
+showSelectTime('select_time', 'select_route', 'input_date');

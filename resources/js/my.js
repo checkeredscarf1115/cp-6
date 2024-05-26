@@ -54,3 +54,9 @@ function createSelectTimeOptions(hours, minutes, interval, item) {
         }
     }
 }
+
+
+export function setDate(elementDateId) {
+    console.log(document.getElementById(elementDateId));
+    document.getElementById(elementDateId).value = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0];;
+}
