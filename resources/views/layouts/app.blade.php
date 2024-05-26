@@ -74,25 +74,23 @@
 
         <div class="py-3">
             <div class="container">
-                <div class="row justify-content-center">
+                <div class="row justify-content-left">
                     <div class="col-2 text-center theme-color border border-secondary px-3 py-2">
-                        <a href="{{ url('/schedule') }}" class="text-decoration-none text-reset">Расписание</a>
+                        <a href="{{ url('/reserve') }}" class="text-decoration-none text-reset">Бронирование мест</a>
                     </div>
                     <div class="col-2 text-center theme-color border border-secondary px-3 py-2">
-                        <a href="{{ url('/routes') }}" class="text-decoration-none text-reset">Маршруты</a>
-                    </div>
-                    <div class="col-2 text-center theme-color border border-secondary px-3 py-2">
-                        <a href="{{ url('/contact') }}" class="text-decoration-none text-reset">Контакты</a>
-                    </div>
-                    <div class="col-2 text-center theme-color border border-secondary px-3 py-2">
-                        <a href="{{ url('/docs') }}" class="text-decoration-none text-reset">Документы</a>
+                        <a href="{{ url('/reservations') }}" class="text-decoration-none text-reset">Действующие брони</a>
                     </div>
                 </div>
             </div>
         </div>
 
         <main class="py-4">
-            @yield('content')
+            <div class="container theme-color-light-gray py-2">
+
+                        @yield('content')
+
+            </div>
         </main>
     </div>
 </body>

@@ -2,13 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', '/schedule');
+Route::redirect('/', '/reserve');
 
 Auth::routes();
 
-Route::get('/account', [App\Http\Controllers\AccountController::class, 'index'])->name('account');
+Route::get('/reserve', [App\Http\Controllers\ReserveController::class, 'index'])->name('reserve');
 
-Route::get('/schedule', function () {
-    return view('schedule');
-});
-
+Route::get('/reservations', [App\Http\Controllers\ReservationsController::class, 'index'])->name('reservations');
