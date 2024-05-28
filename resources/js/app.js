@@ -3,6 +3,9 @@ import { Modal } from "bootstrap";
 import "../css/app.css";
 import { showSelectTime, setDate } from "./my";
 
+let myModal;
+let itemToBeCancelled;
+
 var sPath = window.location.pathname;
 var sPage = sPath.substring(sPath.lastIndexOf("/") + 1);
 if (sPage == "reserve") {
@@ -17,6 +20,9 @@ if (sPage == "reserve") {
 if (sPage == "reservations") {
     window.onCancelReservation = onCancelReservation;
     window.onCancelPressed = onCancelPressed;
+    myModal = new Modal(document.getElementById("myModal"), {
+        keyboard: false,
+    });
 }
 
 let seats = [];
@@ -76,10 +82,6 @@ function onCancelReservation() {
         document.getElementById("table_header").focus();
     }, 0);
 }
-var myModal = new Modal(document.getElementById("myModal"), {
-    keyboard: false,
-});
-let itemToBeCancelled;
 
 function onCancelPressed(rowId) {
     let id = rowId.replace(/\D/g, "");
