@@ -59,17 +59,17 @@
             <div class="container">
                 <div class="row justify-content-left">
                     @if(Request::url() === url('/reserve'))
-                        <div class="col-2 text-center theme-color border border-secondary px-3 py-2">
+                        <div class="col-2 text-center theme-color px-3 py-2">
                     @else
-                        <div class="col-2 text-center theme-color-dark-gray border border-secondary px-3 py-2">
+                        <div class="col-2 text-center theme-color-dark-gray px-3 py-2">
                     @endif
                         <a href="{{ url('/reserve') }}" class="text-decoration-none text-reset">Бронирование мест</a>
                     </div>
 
                     @if(Request::url() === url('/reservations'))
-                        <div class="col-2 text-center theme-color border border-secondary px-3 py-2">
+                        <div class="col-2 text-center theme-color px-3 py-2">
                     @else
-                        <div class="col-2 text-center theme-color-dark-gray border border-secondary px-3 py-2">
+                        <div class="col-2 text-center theme-color-dark-gray px-3 py-2">
                     @endif
                         <a href="{{ url('/reservations') }}" class="text-decoration-none text-reset">Действующие брони</a>
                     </div>

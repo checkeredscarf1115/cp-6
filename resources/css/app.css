@@ -16,6 +16,14 @@ img {
     height: 24px;
 }
 
+.btn-primary {
+    background: #1ea7ae;
+}
+
+.btn-secondary {
+    background: #6c6a7a;
+}
+
 .row .col-auto {
     width: 5vw;
 }

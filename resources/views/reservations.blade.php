@@ -11,7 +11,7 @@
 
     @for ($i = 0; $i < count($routes); $i++)
     <div
-        class="row justify-content-center text-center my-2"
+        class="row align-items-end text-center my-2"
         id="{{ 'row'.strval($i) }}"
     >
         <div class="col-2" id="{{ 'route'.$i }}">{{ $routes[$i] }}</div>
