@@ -1,14 +1,23 @@
 import "./bootstrap";
+import { Modal } from "bootstrap";
 import "../css/app.css";
 import { showSelectTime, setDate } from "./my";
 
-setDate("input_date");
-window.showSelectTime = showSelectTime;
-showSelectTime("select_time", "select_route", "input_date");
-window.setSelectedSeats = setSelectedSeats;
-window.onSearchClick = onSearchClick;
-window.showReserveButton = showReserveButton;
-window.onReserveClick = onReserveClick;
+var sPath = window.location.pathname;
+var sPage = sPath.substring(sPath.lastIndexOf("/") + 1);
+if (sPage == "reserve") {
+    setDate("input_date");
+    window.showSelectTime = showSelectTime;
+    showSelectTime("select_time", "select_route", "input_date");
+    window.setSelectedSeats = setSelectedSeats;
+    window.onSearchClick = onSearchClick;
+    window.showReserveButton = showReserveButton;
+    window.onReserveClick = onReserveClick;
+}
+if (sPage == "reservations") {
+    window.onCancelReservation = onCancelReservation;
+    window.onCancelPressed = onCancelPressed;
+}
 
 let seats = [];
 let msg = document.getElementById("message");
@@ -54,4 +63,39 @@ function onReserveClick() {
         selectRoute.value
     } на ${inputDate.value} на время ${selectTime.value}`;
     msg.classList.remove("d-none");
+}
+
+//reservation
+
+function onCancelReservation() {
+    myModal.hide();
+    let row = document.getElementById(itemToBeCancelled);
+    // console.log(row);
+    row.remove();
+    setTimeout(function () {
+        document.getElementById("table_header").focus();
+    }, 0);
+}
+var myModal = new Modal(document.getElementById("myModal"), {
+    keyboard: false,
+});
+let itemToBeCancelled;
+
+function onCancelPressed(rowId) {
+    let id = rowId.replace(/\D/g, "");
+    console.log(id);
+    let route = document.getElementById("route" + id).innerHTML;
+    let bus_stop = document.getElementById("bus_stop" + id).innerHTML;
+    let date = document.getElementById("date" + id).innerHTML;
+    let timestamp = document.getElementById("timestamp" + id).innerHTML;
+    let seat = document.getElementById("seat" + id).innerHTML;
+
+    let mb = document
+        .getElementById("myModal")
+        .getElementsByClassName("modal-body")[0];
+    mb.innerHTML = `Вы действительно хотите отменить бронирование по маршруту ${route}, ${bus_stop}, на ${date}, ${timestamp}, с номерами ${seat}?`;
+
+    myModal.show();
+
+    itemToBeCancelled = rowId;
 }
