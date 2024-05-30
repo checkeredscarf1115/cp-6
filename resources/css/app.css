@@ -20,6 +20,11 @@ img {
     background: #1ea7ae;
 }
 
+.theme-color:hover {
+    background: #19858b;
+    color: white;
+}
+
 .btn-secondary {
     background: #6c6a7a;
 }

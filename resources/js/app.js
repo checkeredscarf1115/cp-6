@@ -65,10 +65,21 @@ function onSearchClick(id) {
 }
 
 function onReserveClick() {
+    seats.forEach((i) => {
+        let elem = document.getElementById("seat" + i);
+        elem.classList.remove("seat-selected");
+        elem.classList.add("seat-reserved");
+        elem.removeAttribute("onclick");
+        elem.removeAttribute("href");
+        elem.classList.add("text-decoration-none");
+    });
+
     msg.innerHTML = `Места ${seats.toString()} были успешно забронированы для маршрута ${
         selectRoute.value
     } на ${inputDate.value} на время ${selectTime.value}`;
     msg.classList.remove("d-none");
+
+    seats = [];
 }
 
 //reservation

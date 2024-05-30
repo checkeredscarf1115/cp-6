@@ -26,7 +26,7 @@
     
     <select class="col-2 mx-2" id="select_time"></select>
 
-    <div class="col-1 mx-2 btn btn-primary" onclick="onSearchClick('search_result')">Поиск</div>
+    <div class="col-1 mx-2 btn theme-color" onclick="onSearchClick('search_result')">Поиск</div>
 </div>
 
 <div class="d-none" id="search_result">
@@ -34,7 +34,7 @@
 
     <hr class="border-4"/>
 
-    <button class="btn btn-primary invisible" id="reserve_button" onclick="onReserveClick()">Забронировать</button>
+    <button class="btn theme-color invisible" id="reserve_button" onclick="onReserveClick()">Забронировать</button>
 
     <div class="row">
         <div class="container py-2">
@@ -45,7 +45,7 @@
                             @if (in_array($j + $i * 4, $seats_reserved))
                                 <div class="col-auto text-center seat-reserved m-1 text-black">{{ $j + $i * 4 }}</div>
                             @else
-                                <a href="#" onclick="setSelectedSeats(selected, this); showReserveButton('reserve_button', this)" class="col-auto text-center seat-available m-1 text-black">{{ $j + $i * 4 }}</a>
+                                <a id="{{ "seat".$j + $i * 4 }}" href="#" onclick="setSelectedSeats(selected, this); showReserveButton('reserve_button', this)" class="col-auto text-center seat-available m-1 text-black">{{ $j + $i * 4 }}</a>
                             @endif
                         @endfor
 
@@ -58,7 +58,7 @@
                             @if (in_array($j + $i * 4, $seats_reserved))
                                 <div class="col-auto text-center seat-reserved m-1 text-black">{{ $j + $i * 4 }}</div>
                             @else
-                                <a href="#" onclick="setSelectedSeats(selected, this); showReserveButton('reserve_button', this)" class="col-auto text-center seat-available m-1 text-black">{{ $j + $i * 4 }}</a>
+                                <a id="{{ "seat".$j + $i * 4 }}" href="#" onclick="setSelectedSeats(selected, this); showReserveButton('reserve_button', this)" class="col-auto text-center seat-available m-1 text-black">{{ $j + $i * 4 }}</a>
                             @endif
                         @endfor
                     @endif

@@ -44,7 +44,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
-          <button type="button" class="btn btn-primary" onclick="onCancelReservation({{ json_encode('row'.$i) }})">Да</button>
+          <button type="button" class="btn theme-color" onclick="onCancelReservation({{ json_encode('row'.$i) }})">Да</button>
         </div>
       </div>
     </div>
