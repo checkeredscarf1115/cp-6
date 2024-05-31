@@ -1,14 +1,19 @@
 @extends('layouts.authorzed')
 
 @section('inside-content')
+<script>
+    var timeLists = {!! json_encode($data['schedule'], JSON_HEX_TAG) !!};
+    window.onload = function() {
+        setTimeList(timeLists);
+    }
+</script>
 <div class="row seat-available mx-1 py-4 px-2 mb-4 d-none" id="message">
     Были успешно забронированы
 </div>
 
-{{-- <form action="{{ route('reserve') }}" method="POST"> --}}
-<form action="{{ route('reserve') }}" method="GET">
+<form action="{{ route('reserve') }}" method="POST">
 <div class="row mx-2">
-    <select name="route" class="col-2 mx-2" id="select_route" onchange="showSelectTime('select_time', 'select_route', 'input_date')"  >
+    <select name="route" class="col-2 mx-2" id="select_route" onchange="setTimeList(timeLists);"  >
         @foreach ($data['routes'] as $route)
             <option  value={{ $route->route }}>{{ $route->route }}</option>
         @endforeach
@@ -20,19 +25,12 @@
         @endforeach
     </select>
 
-    <input name="date" class="col-2 mx-2" type="date" id="input_date" onchange="showSelectTime('select_time', 'select_route', 'input_date')">
+    <input name="date" class="col-2 mx-2" type="date" id="input_date" onchange="setTimeList(timeLists);">
     
-    <select name="time" class="col-2 mx-2" id="select_time">
-        {{-- @if ($data['time'])
-        @foreach ($data['bus_stops'] as $bus_stop)
-            <option value={{ $bus_stop->bus_stop }}>{{ $bus_stop->bus_stop }}</option>
-        @endforeach
-        @endif --}}
-    </select>
+    <select name="time" class="col-2 mx-2" id="select_time"></select>
 
-    <button type="submit" name="clicked" value="get_time_list" class="col-1 mx-2 btn theme-color" onclick="onSearchClick('search_result');">Поиск</button>
+    <button class="col-1 mx-2 btn theme-color" onclick="onSearchClick('search_result');">Поиск</button>
 </div>
-</form>
 
 <div class="d-none" id="search_result">
     <div class="pt-2" id="selected">Выбрано: </div>
@@ -72,6 +70,6 @@
         </div>
     </div>
 </div>
-{{-- </form> --}}
+</form>
 
 @endsection

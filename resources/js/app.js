@@ -1,7 +1,14 @@
 import "./bootstrap";
 import { Modal } from "bootstrap";
 import "../css/app.css";
-import { showSelectTime, setDate } from "./my";
+
+function setDate(elementDateId) {
+    document.getElementById(elementDateId).value = new Date(
+        new Date().setDate(new Date().getDate() + 1)
+    )
+        .toISOString()
+        .split("T")[0];
+}
 
 let myModal;
 let itemToBeCancelled;
@@ -10,12 +17,12 @@ var sPath = window.location.pathname;
 var sPage = sPath.substring(sPath.lastIndexOf("/") + 1);
 if (sPage == "reserve") {
     setDate("input_date");
-    window.showSelectTime = showSelectTime;
-    showSelectTime("select_time", "select_route", "input_date");
+    // showSelectTime("select_time", "select_route", "input_date");
     window.setSelectedSeats = setSelectedSeats;
     window.onSearchClick = onSearchClick;
     window.showReserveButton = showReserveButton;
     window.onReserveClick = onReserveClick;
+    window.setTimeList = setTimeList;
 }
 if (sPage == "reservations") {
     window.onCancelReservation = onCancelReservation;
@@ -31,6 +38,24 @@ let selectRoute = document.getElementById("select_route");
 let selectBusStop = document.getElementById("select_bus_stop");
 let inputDate = document.getElementById("input_date");
 let selectTime = document.getElementById("select_time");
+
+function setTimeList(timeLists) {
+    while (selectTime.options.length > 0) {
+        selectTime.remove(0);
+    }
+
+    console.log(timeLists);
+    let route = selectRoute.value;
+    let day = new Date(inputDate.value).getDay();
+    timeLists.forEach((i) => {
+        if (i["routes_route"] == route && i["day_of_the_week"] == day) {
+            let opt = document.createElement("option");
+            opt.value = i["arrival_time"];
+            opt.innerHTML = i["arrival_time"];
+            selectTime.appendChild(opt);
+        }
+    });
+}
 
 function setSelectedSeats(div, cell) {
     let index = seats.indexOf(cell.innerHTML);
@@ -96,7 +121,7 @@ function onCancelReservation() {
 
 function onCancelPressed(rowId) {
     let id = rowId.replace(/\D/g, "");
-    console.log(id);
+    // console.log(id);
     let route = document.getElementById("route" + id).innerHTML;
     let bus_stop = document.getElementById("bus_stop" + id).innerHTML;
     let date = document.getElementById("date" + id).innerHTML;

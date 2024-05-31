@@ -19,11 +19,7 @@ class ReserveController extends Controller
         $data['seats_reserved'] = [1, 5, 10];
         $data['routes'] = DB::table('routes')->get();
         $data['bus_stops'] = DB::table('bus_stops')->get();
-
-        if ($request->has('route')) {
-            $data['time'] = DB::table('schedule')->where('routes_route', $request->route)
-                ->where('day_of_the_week', strftime("%A", strtotime($request->date)))->get();
-        }
+        $data['schedule'] = DB::table('schedule')->get();
 
         return view('reserve')->with('data', $data)
         ;
