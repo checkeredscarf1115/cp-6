@@ -48,10 +48,14 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        if (str_contains(substr(strval($data['phone_number']), 0, 1),'8')) {
+            $data['phone_number'] = intval('7'.substr(strval($data['phone_number']), 1));
+        }
+
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phone_number' => ['required', 'numeric', 'regex:/(\+7|7|8)\d{10}/', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -64,10 +68,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        if (str_contains(substr(strval($data['phone_number']), 0, 1),'8')) {
+            $data['phone_number'] = intval('7'.substr(strval($data['phone_number']), 1));
+        }
+        
         return User::create([
             'name' => $data['name'],
             'surname' => $data['surname'],
-            'email' => $data['email'],
+            'phone_number' => $data['phone_number'],
             'password' => Hash::make($data['password']),
         ]);
     }

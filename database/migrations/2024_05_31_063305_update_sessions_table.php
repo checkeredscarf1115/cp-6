@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function(Blueprint $table) {
-            $table->string('surname');
+        Schema::table('sessions', function (Blueprint $table) {
+            $table->dropColumn('user_id');
+        });
+
+        Schema::table('sessions', function (Blueprint $table) {
+            $table->foreignUuid('user_id')->nullable()->index();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function(Blueprint $table) {
-            $table->dropColumn('surname');
-        });
+        //
     }
 };
