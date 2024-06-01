@@ -13,6 +13,7 @@ class Reservation extends Model
     protected $primaryKey = 'users_id';
     public $incrementing = false;
     public $timestamps = false;
+    protected $rememberTokenName = false;
 
     protected $fillable = [
         'users_id',

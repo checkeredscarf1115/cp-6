@@ -57,7 +57,7 @@ function onReservationCreateSubmit(url) {
             onSuccessReserve(xhr.responseText);
         } else if (xhr.status >= 400) {
             console.log(xhr);
-            onFailReserve();
+            onFailReserve(xhr.responseText);
         }
     };
     xhr.open("POST", url, true);
@@ -215,6 +215,16 @@ function onSuccessReserve(text) {
         elem.classList.add("text-decoration-none");
     });
 
+    seats = [];
+    document.getElementById("reserve_button").classList.add("invisible");
+    document.getElementById("label_selected_seats").innerHTML = "";
+
+    const obj = JSON.parse(text);
+    if (obj.code != 0) {
+        onFailReserve(text);
+        return;
+    }
+
     msg.classList.remove("seat-reserved");
     msg.classList.add("seat-available");
 
@@ -222,10 +232,6 @@ function onSuccessReserve(text) {
         selectRoute.value
     } на ${inputDate.value} на время ${selectTime.value}`;
     msg.classList.remove("d-none");
-
-    seats = [];
-    document.getElementById("reserve_button").classList.add("invisible");
-    document.getElementById("label_selected_seats").innerHTML = "";
 }
 
 function onFailReserve(text) {

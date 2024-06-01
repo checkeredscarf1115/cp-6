@@ -11,7 +11,7 @@
     Были успешно забронированы
 </div>
 <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-<form onsubmit="onReservationCreateSubmit('{{ route('reserve.create') }}')" method="POST" id="reserve_form" target="dummyframe">
+<form onsubmit="onReservationCreateSubmit('{{ route('reserve.create') }}')" id="reserve_form" target="dummyframe">
 @csrf
 <div class="row mx-2">
     <select name="route" class="col-2 mx-2" id="select_route" onchange="onReserveFieldChanged();setTimeList(timeLists);"  >

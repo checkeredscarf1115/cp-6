@@ -43,7 +43,7 @@ class ReserveController extends Controller
     }
 
     public function create(Request $request) {
-        $msg = "OK";
+        $msg = "";
         $code = 0;
 
         $schedule = DB::table('schedule')
@@ -67,7 +67,27 @@ class ReserveController extends Controller
                 $code = 0;
             } catch (\Illuminate\Database\QueryException $exception) {
                 $code = 1;
-                $msg = $exception;
+
+                if ($exception->errorInfo[0] == "23000" && $exception->errorInfo[1] == 1062) {
+                    $reservations = Reservation::where('schedule_id', $schedule->id)
+                    ->where('date_of_reservation', $request->input('date'))
+                    ->get();
+                    
+                    $seats_already_reserved = [];
+                    
+                    foreach ($reservations as $r) {
+                        foreach ($seats as $seat) {
+                            if ($seat == $r->seat_number) {
+                                array_push($seats_already_reserved, $seat);
+                                break;
+                            }
+                        }
+                    }
+                    $msg = sprintf("места %s уже заняты", implode(',', $seats_already_reserved));
+                    
+                } else {
+                    $msg = $exception->errorInfo;
+                }
             }
         }
 
