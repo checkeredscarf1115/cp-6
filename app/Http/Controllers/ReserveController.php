@@ -21,7 +21,22 @@ class ReserveController extends Controller
         $data['bus_stops'] = DB::table('bus_stops')->get();
         $data['schedule'] = DB::table('schedule')->get();
 
-        return view('reserve')->with('data', $data)
-        ;
+        return view('reserve')->with('data', $data);
+    }
+
+    public function getReservations(Request $request) {
+        $schedule = DB::table('schedule')
+            ->where('day_of_the_week', '=', $request->input('route'))
+            ->where('arrival_time', '=', $request->input('time'))
+            ->first();
+
+        $data['reservations'] = DB::table('reservations')
+            ->where('date_of_reservation', '=', $request->input('date'))
+            ->where('schedule_id', '=', $schedule->id)
+            ->where('users_id', '=', $request->user()->id)
+            ->where('bus_stops_bus_stop', '=', str_replace('_', ' ', $request->input('bus_stop')))
+            ->get();
+
+        return  response()->json([$data['reservations'], $schedule]);
     }
 }

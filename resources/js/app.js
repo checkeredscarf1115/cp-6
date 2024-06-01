@@ -23,6 +23,7 @@ if (sPage == "reserve") {
     window.showReserveButton = showReserveButton;
     window.onReserveClick = onReserveClick;
     window.setTimeList = setTimeList;
+    window.httpGet = httpGet;
 }
 if (sPage == "reservations") {
     window.onCancelReservation = onCancelReservation;
@@ -39,12 +40,80 @@ let selectBusStop = document.getElementById("select_bus_stop");
 let inputDate = document.getElementById("input_date");
 let selectTime = document.getElementById("select_time");
 
+function httpGet(url) {
+    let params = `route=${selectRoute.value}&date=${inputDate.value}&time=${selectTime.value}&bus_stop=${selectBusStop.value}`;
+
+    fetch(url + "?" + params)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (json) {
+            console.log(json);
+            createBusModel(json);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+function createBusModel(json) {
+    let bus_model = document.getElementById("bus_model");
+    let seats_total = json[1]["seats_total"];
+    let seat_per_row = 4;
+
+    for (let i = 0; i < Math.ceil(seats_total / seat_per_row); i++) {
+        let row = document.createElement("div");
+        row.classList.add("row", "justify-content-center");
+        bus_model.appendChild(row);
+
+        if (i == Math.floor(seats_total / seat_per_row) - 1) {
+            for (let j = 1; j <= seat_per_row + 1; j++) {
+                createCell(row, seat_per_row, i, j);
+            }
+            break;
+        } else {
+            for (let j = 1; j <= seat_per_row; j++) {
+                if (
+                    (j == seat_per_row - 1 && seat_per_row == 4) ||
+                    (j == seat_per_row && seat_per_row == 3)
+                ) {
+                    let e = document.createElement("div");
+                    e.classList.add("col-auto", "invisible", "m-1");
+
+                    row.appendChild(e);
+                }
+                createCell(row, seat_per_row, i, j);
+            }
+        }
+    }
+}
+
+function createCell(row, seat_per_row, i, j) {
+    let a = document.createElement("a");
+    a.classList.add(
+        "col-auto",
+        "text-center",
+        "seat-available",
+        "m-1",
+        "text-black"
+    );
+    a.href = "#";
+    a.id = "seat" + eval(j + i * seat_per_row);
+    a.addEventListener("click", function () {
+        setSelectedSeats(document.getElementById("selected"), a);
+        showReserveButton();
+    });
+    a.innerHTML = j + i * seat_per_row;
+    a.value = j + i * seat_per_row;
+    row.appendChild(a);
+}
+
 function setTimeList(timeLists) {
     while (selectTime.options.length > 0) {
         selectTime.remove(0);
     }
 
-    console.log(timeLists);
+    // console.log(timeLists);
     let route = selectRoute.value;
     let day = new Date(inputDate.value).getDay();
     timeLists.forEach((i) => {
@@ -73,8 +142,8 @@ function setSelectedSeats(div, cell) {
     div.innerHTML = "Выбрано: " + seats.toString();
 }
 
-function showReserveButton(id) {
-    let elem = document.getElementById(id);
+function showReserveButton() {
+    let elem = document.getElementById("reserve_button");
     if (seats.length > 0 && elem.classList.contains("invisible")) {
         elem.classList.remove("invisible");
         elem.classList.add("visible");

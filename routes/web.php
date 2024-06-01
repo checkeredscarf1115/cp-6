@@ -12,3 +12,5 @@ Auth::routes([
 Route::get('/reserve', [App\Http\Controllers\ReserveController::class, 'index'])->name('reserve');
 
 Route::get('/reservations', [App\Http\Controllers\ReservationsController::class, 'index'])->name('reservations');
+
+Route::get('/reserve/bus', [App\Http\Controllers\ReserveController::class, 'getReservations'])->name('reserve_bus');
