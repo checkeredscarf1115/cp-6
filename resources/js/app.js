@@ -94,6 +94,12 @@ function createBusModel(json) {
     }
 
     let seats_total = json[1]["seats_total"];
+    let seat_numbers = [];
+    for (let i = 0; i < json[0].length; i++) {
+        seat_numbers.push(json[0][i].seat_number);
+    }
+    // console.log(json[0][0].seat_number);
+    // console.log(seat_numbers);
 
     let seat_per_row;
     if (seats_total > 21) {
@@ -109,7 +115,7 @@ function createBusModel(json) {
 
         if (i == Math.floor(seats_total / seat_per_row) - 1) {
             for (let j = 1; j <= seat_per_row + 1; j++) {
-                createCell(row, seat_per_row, i, j);
+                createCell(row, seat_per_row, i, j, seat_numbers);
             }
             break;
         } else {
@@ -123,27 +129,40 @@ function createBusModel(json) {
 
                     row.appendChild(e);
                 }
-                createCell(row, seat_per_row, i, j);
+                createCell(row, seat_per_row, i, j, seat_numbers);
             }
         }
     }
 }
 
-function createCell(row, seat_per_row, i, j) {
+function createCell(row, seat_per_row, i, j, seat_numbers) {
     let a = document.createElement("a");
-    a.classList.add(
-        "col-auto",
-        "text-center",
-        "seat-available",
-        "m-1",
-        "text-black"
-    );
-    a.href = "#";
-    a.id = "seat" + eval(j + i * seat_per_row);
-    a.addEventListener("click", function () {
-        setSelectedSeats(a);
-        showReserveButton();
-    });
+
+    if (seat_numbers.includes(j + i * seat_per_row)) {
+        console.log(j + i * seat_per_row);
+        a.classList.add(
+            "col-auto",
+            "text-center",
+            "seat-reserved",
+            "m-1",
+            "text-black"
+        );
+    } else {
+        a.classList.add(
+            "col-auto",
+            "text-center",
+            "seat-available",
+            "m-1",
+            "text-black"
+        );
+
+        a.href = "#";
+        a.id = "seat" + eval(j + i * seat_per_row);
+        a.addEventListener("click", function () {
+            setSelectedSeats(a);
+            showReserveButton();
+        });
+    }
     a.innerHTML = j + i * seat_per_row;
     a.value = j + i * seat_per_row;
     row.appendChild(a);

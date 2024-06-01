@@ -32,14 +32,12 @@ class ReserveController extends Controller
             ->where('arrival_time', '=', $request->input('time'))
             ->first();
 
-        $data['reservations'] = DB::table('reservations')
-            ->where('date_of_reservation', '=', $request->input('date'))
+        $reservations = Reservation::select('seat_number')
             ->where('schedule_id', '=', $schedule->id)
-            ->where('users_id', '=', $request->user()->id)
-            ->where('bus_stops_bus_stop', '=', str_replace('_', ' ', $request->input('bus_stop')))
+            ->where('date_of_reservation', '=', $request->input('date'))
             ->get();
 
-        return response()->json([$data['reservations'], $schedule]);
+        return response()->json([$reservations, $schedule]);
     }
 
     public function create(Request $request) {
@@ -83,14 +81,14 @@ class ReserveController extends Controller
                             }
                         }
                     }
+
                     $msg = sprintf("места %s уже заняты", implode(',', $seats_already_reserved));
-                    
+
                 } else {
                     $msg = $exception->errorInfo;
                 }
             }
         }
-
 
         return response()->json([
             'code' => $code,
