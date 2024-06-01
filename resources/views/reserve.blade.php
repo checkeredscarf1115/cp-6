@@ -7,7 +7,7 @@
         setTimeList(timeLists);
     }
 </script>
-<div class="row seat-available mx-1 py-4 px-2 mb-4 d-none" id="message">
+<div class="row mx-1 py-4 px-2 mb-4 d-none" id="message">
     Были успешно забронированы
 </div>
 <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
@@ -34,12 +34,12 @@
 </div>
 
 <div class="d-none" id="search_result">
-    <div class="pt-2" name="selected_seats" id="selected">Выбрано: </div>
+    <div class="pt-2" id="label_selected_seats">Выбрано: </div>
     <input type="hidden" id="selected_seats" name="selected_seats">
 
     <hr class="border-4"/>
 
-    <button type="submit" name="btn" value="reserve" class="btn theme-color invisible" id="reserve_button" onclick="onReserveClick()">Забронировать</button>
+    <button type="submit" name="btn" value="reserve" class="btn theme-color invisible" id="reserve_button">Забронировать</button>
 
     <div class="row">
         <div class="container py-2" id="bus_model">

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Reservation;
+use DateTime;
 
 class ReserveController extends Controller
 {
@@ -25,7 +27,8 @@ class ReserveController extends Controller
 
     public function getReservations(Request $request) {
         $schedule = DB::table('schedule')
-            ->where('day_of_the_week', '=', $request->input('route'))
+            ->where('routes_route', '=', $request->input('route'))
+            ->where('day_of_the_week', '=', $this->dateToNumber($request->input('date')))
             ->where('arrival_time', '=', $request->input('time'))
             ->first();
 
@@ -39,8 +42,63 @@ class ReserveController extends Controller
         return response()->json([$data['reservations'], $schedule]);
     }
 
-    public function create(Request $request) {       
-        $input = $request->all();
-        return response()->json($input);
+    public function create(Request $request) {
+        $msg = "OK";
+        $code = 0;
+
+        $schedule = DB::table('schedule')
+            ->where('routes_route', '=', $request->input('route'))
+            ->where('day_of_the_week', '=', $this->dateToNumber($request->input('date')))
+            ->where('arrival_time', '=', $request->input('time'))
+            ->first();
+
+        $seats = explode(',', $request->input('selected_seats'));
+
+        foreach ($seats as $seat) {
+            try {
+                Reservation::create([
+                    'users_id' => $request->user()->id,
+                    'schedule_id'  => $schedule->id,
+                    'bus_stops_bus_stop'  => str_replace('_', ' ', $request->input('bus_stop')),
+                    'seat_number'  => $seat,
+                    'date_of_reservation'  => $request->input('date'),
+                ]);
+
+                $code = 0;
+            } catch (\Illuminate\Database\QueryException $exception) {
+                $code = 1;
+                $msg = $exception;
+            }
+        }
+
+
+        return response()->json([
+            'code' => $code,
+            'msg' => $msg,
+        ]);
+    }
+
+    private function dateToNumber($date) {
+        $d = new DateTime($date);
+        $d = $d->format('l');
+        
+        switch ($d) {
+            case 'Sunday':
+                return 0;
+            case 'Monday':
+                return 1;
+            case 'Tuesday':
+                return 2;
+            case 'Wednesday':
+                return 3;
+            case 'Thursday':
+                return 4;
+            case 'Friday':
+                return 5;
+            case 'Saturday':
+                return 6;
+            default:
+                return -1;
+        }
     }
 }

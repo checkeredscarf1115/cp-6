@@ -21,7 +21,6 @@ if (sPage == "reserve") {
     window.setSelectedSeats = setSelectedSeats;
     window.onSearchClick = onSearchClick;
     window.showReserveButton = showReserveButton;
-    window.onReserveClick = onReserveClick;
     window.setTimeList = setTimeList;
     window.httpGet = httpGet;
     window.onReservationCreateSubmit = onReservationCreateSubmit;
@@ -52,6 +51,15 @@ function onReservationCreateSubmit(url) {
     console.log(object);
 
     let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log(xhr);
+            onSuccessReserve(xhr.responseText);
+        } else if (xhr.status >= 400) {
+            console.log(xhr);
+            onFailReserve();
+        }
+    };
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(JSON.stringify(object));
@@ -88,7 +96,7 @@ function createBusModel(json) {
     let seats_total = json[1]["seats_total"];
 
     let seat_per_row;
-    if (seats_total > 30) {
+    if (seats_total > 21) {
         seat_per_row = 4;
     } else {
         seat_per_row = 3;
@@ -133,7 +141,7 @@ function createCell(row, seat_per_row, i, j) {
     a.href = "#";
     a.id = "seat" + eval(j + i * seat_per_row);
     a.addEventListener("click", function () {
-        setSelectedSeats(document.getElementById("selected"), a);
+        setSelectedSeats(a);
         showReserveButton();
     });
     a.innerHTML = j + i * seat_per_row;
@@ -159,7 +167,11 @@ function setTimeList(timeLists) {
     });
 }
 
-function setSelectedSeats(div, cell) {
+function setSelectedSeats(cell) {
+    if (cell.classList.contains("seat-reserved")) {
+        return;
+    }
+
     let index = seats.indexOf(cell.innerHTML);
     if (index > -1) {
         // only splice array when item is found
@@ -172,7 +184,8 @@ function setSelectedSeats(div, cell) {
         cell.classList.add("seat-selected");
     }
 
-    div.innerHTML = "Выбрано: " + seats.toString();
+    document.getElementById("label_selected_seats").innerHTML =
+        "Выбрано: " + seats.toString();
     document.getElementById("selected_seats").value = seats.toString();
 }
 
@@ -192,7 +205,7 @@ function onSearchClick(id) {
     search_res.classList.remove("d-none");
 }
 
-function onReserveClick() {
+function onSuccessReserve(text) {
     seats.forEach((i) => {
         let elem = document.getElementById("seat" + i);
         elem.classList.remove("seat-selected");
@@ -202,12 +215,28 @@ function onReserveClick() {
         elem.classList.add("text-decoration-none");
     });
 
+    msg.classList.remove("seat-reserved");
+    msg.classList.add("seat-available");
+
     msg.innerHTML = `Места ${seats.toString()} были успешно забронированы для маршрута ${
         selectRoute.value
     } на ${inputDate.value} на время ${selectTime.value}`;
     msg.classList.remove("d-none");
 
     seats = [];
+    document.getElementById("reserve_button").classList.add("invisible");
+    document.getElementById("label_selected_seats").innerHTML = "";
+}
+
+function onFailReserve(text) {
+    const obj = JSON.parse(text);
+
+    msg.classList.remove("seat-available");
+    msg.classList.add("seat-reserved");
+    msg.innerHTML = `Места ${seats.toString()} не смогли быть забронированы для маршрута ${
+        selectRoute.value
+    } на ${inputDate.value} на время ${selectTime.value}: ${obj.msg}`;
+    msg.classList.remove("d-none");
 }
 
 //reservation
