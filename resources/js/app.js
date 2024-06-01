@@ -24,6 +24,8 @@ if (sPage == "reserve") {
     window.onReserveClick = onReserveClick;
     window.setTimeList = setTimeList;
     window.httpGet = httpGet;
+    window.onReservationCreateSubmit = onReservationCreateSubmit;
+    window.onReserveFieldChanged = onReserveFieldChanged;
 }
 if (sPage == "reservations") {
     window.onCancelReservation = onCancelReservation;
@@ -39,6 +41,27 @@ let selectRoute = document.getElementById("select_route");
 let selectBusStop = document.getElementById("select_bus_stop");
 let inputDate = document.getElementById("input_date");
 let selectTime = document.getElementById("select_time");
+
+function onReservationCreateSubmit(url) {
+    let reserve_form = document.forms.reserve_form;
+    let formData = new FormData(reserve_form);
+    let object = {};
+    formData.forEach(function (value, key) {
+        object[key] = value;
+    });
+    console.log(object);
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(object));
+}
+
+function onReserveFieldChanged() {
+    let search_res = document.getElementById("search_result");
+    search_res.classList.add("d-none");
+    seats = [];
+}
 
 function httpGet(url) {
     let params = `route=${selectRoute.value}&date=${inputDate.value}&time=${selectTime.value}&bus_stop=${selectBusStop.value}`;
@@ -58,8 +81,18 @@ function httpGet(url) {
 
 function createBusModel(json) {
     let bus_model = document.getElementById("bus_model");
+    while (bus_model.firstChild) {
+        bus_model.removeChild(bus_model.firstChild);
+    }
+
     let seats_total = json[1]["seats_total"];
-    let seat_per_row = 4;
+
+    let seat_per_row;
+    if (seats_total > 30) {
+        seat_per_row = 4;
+    } else {
+        seat_per_row = 3;
+    }
 
     for (let i = 0; i < Math.ceil(seats_total / seat_per_row); i++) {
         let row = document.createElement("div");
@@ -140,6 +173,7 @@ function setSelectedSeats(div, cell) {
     }
 
     div.innerHTML = "Выбрано: " + seats.toString();
+    document.getElementById("selected_seats").value = seats.toString();
 }
 
 function showReserveButton() {

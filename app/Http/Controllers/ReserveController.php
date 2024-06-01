@@ -16,7 +16,6 @@ class ReserveController extends Controller
 
     public function index(Request $request)
     {
-        $data['seats_reserved'] = [1, 5, 10];
         $data['routes'] = DB::table('routes')->get();
         $data['bus_stops'] = DB::table('bus_stops')->get();
         $data['schedule'] = DB::table('schedule')->get();
@@ -37,6 +36,11 @@ class ReserveController extends Controller
             ->where('bus_stops_bus_stop', '=', str_replace('_', ' ', $request->input('bus_stop')))
             ->get();
 
-        return  response()->json([$data['reservations'], $schedule]);
+        return response()->json([$data['reservations'], $schedule]);
+    }
+
+    public function create(Request $request) {       
+        $input = $request->all();
+        return response()->json($input);
     }
 }

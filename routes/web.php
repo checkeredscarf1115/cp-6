@@ -9,8 +9,9 @@ Auth::routes([
     'verify' => false, // Email Verification Routes...
   ]);
 
-Route::get('/reserve', [App\Http\Controllers\ReserveController::class, 'index'])->name('reserve');
+Route::get('/reserve', [App\Http\Controllers\ReserveController::class, 'index'])->name('reserve.index');
+Route::get('/reserve/bus', [App\Http\Controllers\ReserveController::class, 'getReservations'])->name('reserve_bus');
+Route::post('/reserve', [App\Http\Controllers\ReserveController::class, 'create'])->name('reserve.create');
 
 Route::get('/reservations', [App\Http\Controllers\ReservationsController::class, 'index'])->name('reservations');
 
-Route::get('/reserve/bus', [App\Http\Controllers\ReserveController::class, 'getReservations'])->name('reserve_bus');
