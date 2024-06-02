@@ -3,9 +3,13 @@ import { Modal } from "bootstrap";
 import "../css/app.css";
 
 function setDate(elementDateId) {
-    document.getElementById(elementDateId).value = new Date(
-        new Date().setDate(new Date().getDate() + 1)
-    )
+    let elem = document.getElementById(elementDateId);
+    let date = new Date(new Date().setDate(new Date().getDate() + 1))
+        .toISOString()
+        .split("T")[0];
+    elem.min = date;
+    elem.value = date;
+    elem.max = new Date(new Date().setDate(new Date().getDate() + 30))
         .toISOString()
         .split("T")[0];
 }

@@ -14,19 +14,30 @@
 <form onsubmit="onReservationCreateSubmit('{{ route('reserve.create') }}')" id="reserve_form" target="dummyframe">
 @csrf
 <div class="row mx-2">
+    
+    <label for="route" class="col-2 mx-2 px-1">Маршрут</label>
+    <label for="bus_stop" class="col-2 mx-2 px-1">Остановка</label>
+    <label for="date" class="col-2 mx-2 px-1">Дата</label>
+    <label for="time" class="col-2 mx-2 px-1">Время</label>
+</div>
+
+<div class="row mx-2">
     <select name="route" class="col-2 mx-2" id="select_route" onchange="onReserveFieldChanged();setTimeList(timeLists);"  >
         @foreach ($data['routes'] as $route)
             <option  value={{ $route->route }}>{{ $route->route }}</option>
         @endforeach
     </select>   
-
+    
+    
     <select name="bus_stop" class="col-2 mx-2" id="select_bus_stop">
         @foreach ($data['bus_stops'] as $bus_stop)
             <option value={{ str_replace(' ', '_', $bus_stop->bus_stop) }}>{{ $bus_stop->bus_stop }}</option>
         @endforeach
     </select>
 
+    
     <input name="date" class="col-2 mx-2" type="date" id="input_date" onchange="onReserveFieldChanged();setTimeList(timeLists);">
+
     
     <select name="time" class="col-2 mx-2" id="select_time" onchange="onReserveFieldChanged();"></select>
 
