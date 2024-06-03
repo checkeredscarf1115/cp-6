@@ -23,16 +23,16 @@ if (sPage == "reserve") {
     setDate("input_date");
     // showSelectTime("select_time", "select_route", "input_date");
     window.setSelectedSeats = setSelectedSeats;
-    window.onSearchClick = onSearchClick;
+    window.showBusModel = showBusModel;
     window.showReserveButton = showReserveButton;
     window.setTimeList = setTimeList;
-    window.httpGet = httpGet;
-    window.onReservationCreateSubmit = onReservationCreateSubmit;
-    window.onReserveFieldChanged = onReserveFieldChanged;
+    window.getBusModel = getBusModel;
+    window.saveReservations = saveReservations;
+    window.hideSearchResult = hideSearchResult;
 }
 if (sPage == "reservations") {
-    window.onCancelReservation = onCancelReservation;
-    window.onCancelPressed = onCancelPressed;
+    window.deleteReservation = deleteReservation;
+    window.promptDeleteReservation = promptDeleteReservation;
     myModal = new Modal(document.getElementById("myModal"), {
         keyboard: false,
     });
@@ -45,7 +45,7 @@ let selectBusStop = document.getElementById("select_bus_stop");
 let inputDate = document.getElementById("input_date");
 let selectTime = document.getElementById("select_time");
 
-function onReservationCreateSubmit(url) {
+function saveReservations(url) {
     let reserve_form = document.forms.reserve_form;
     let formData = new FormData(reserve_form);
     let object = {};
@@ -69,13 +69,13 @@ function onReservationCreateSubmit(url) {
     xhr.send(JSON.stringify(object));
 }
 
-function onReserveFieldChanged() {
+function hideSearchResult() {
     let search_res = document.getElementById("search_result");
     search_res.classList.add("d-none");
     seats = [];
 }
 
-function httpGet(url) {
+function getBusModel(url) {
     let params = `route=${selectRoute.value}&date=${inputDate.value}&time=${selectTime.value}&bus_stop=${selectBusStop.value}`;
 
     fetch(url + "?" + params)
@@ -149,7 +149,8 @@ function createCell(row, seat_per_row, i, j, seat_numbers) {
             "text-center",
             "seat-reserved",
             "m-1",
-            "text-black"
+            "text-black",
+            "text-decoration-none"
         );
     } else {
         a.classList.add(
@@ -223,7 +224,7 @@ function showReserveButton() {
     }
 }
 
-function onSearchClick(id) {
+function showBusModel(id) {
     let search_res = document.getElementById(id);
     search_res.classList.remove("d-none");
 }
@@ -242,7 +243,7 @@ function onSuccessReserve(text) {
     document.getElementById("reserve_button").classList.add("invisible");
     document.getElementById("label_selected_seats").innerHTML = "";
 
-    const obj = JSON.parse(text);
+    let obj = JSON.parse(text);
     if (obj.code != 0) {
         onFailReserve(text);
         return;
@@ -258,7 +259,7 @@ function onSuccessReserve(text) {
 }
 
 function onFailReserve(text) {
-    const obj = JSON.parse(text);
+    let obj = JSON.parse(text);
 
     msg.classList.remove("seat-available");
     msg.classList.add("seat-reserved");
@@ -270,7 +271,7 @@ function onFailReserve(text) {
 
 //reservation
 
-function onCancelReservation() {
+function deleteReservation() {
     myModal.hide();
     let row = document.getElementById(itemToBeCancelled);
     // console.log(row);
@@ -280,7 +281,7 @@ function onCancelReservation() {
     }, 0);
 }
 
-function onCancelPressed(rowId) {
+function promptDeleteReservation(rowId) {
     let id = rowId.replace(/\D/g, "");
     // console.log(id);
     let route = document.getElementById("route" + id).innerHTML;

@@ -20,7 +20,7 @@
         <div class="col-2" id="{{ 'timestamp'.$i }}">{{ $timestamps[$i] }}</div>
         <div class="col-2" id="{{ 'seat'.$i }}">{{ $seats[$i] }}</div>
         <div class="col-2">
-            <a href="#" onclick="onCancelPressed({{ json_encode('row'.$i) }})">
+            <a href="#" onclick="promptDeleteReservation({{ json_encode('row'.$i) }})">
                 <img
                     src="{{ asset('images/cancel.png') }}"
                     alt="description of myimage"
@@ -44,7 +44,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
-          <button type="button" class="btn theme-color" onclick="onCancelReservation({{ json_encode('row'.$i) }})">Да</button>
+          <button type="button" class="btn theme-color" onclick="deleteReservation({{ json_encode('row'.$i) }})">Да</button>
         </div>
       </div>
     </div>
